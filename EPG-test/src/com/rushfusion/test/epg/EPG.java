@@ -61,7 +61,6 @@ public class EPG extends Activity implements OnItemClickListener{
 	private Uri currentUrl;
 	private int currentIndex = 0;
 	private ChannelInfo currentInfo;
-	private String currentEventName = "";
 	
 	private String currentChannel_name = "";
 	private int currentChannel_num = 0;
@@ -149,7 +148,7 @@ public class EPG extends Activity implements OnItemClickListener{
 			c.moveToFirst();
 			result = c.getString(c.getColumnIndex("event_name"));
 		}
-		System.out.println("当前节目====>"+result);
+		System.out.println("当前频道==>"+info.getServiceName()+"---当前节目====>"+result);
 		return result;
 	}
 	
@@ -238,6 +237,7 @@ public class EPG extends Activity implements OnItemClickListener{
 			protected void onPostExecute(String result) {
 				// TODO Auto-generated method stub
 				super.onPostExecute(result);
+				currentChannel_event = result;
 				info_program.setText(result);
 			}
 
@@ -350,8 +350,8 @@ public class EPG extends Activity implements OnItemClickListener{
 		System.out.println("position==>"+position+"  channelInfo.name==>"+currentInfo.getServiceName());
 		System.out.println(info.toString());
 		//???????????????????????????????????????????
+		showChannelInfo(currentInfo.getProgramNumber(), currentInfo.getServiceName());
 		resetAndPlay(currentInfo);
-		showChannelInfo(currentChannel_num, currentChannel_name);
 		//===========================================
 	}
 
@@ -747,6 +747,7 @@ public class EPG extends Activity implements OnItemClickListener{
     	try {
 			//mService.loadInteractiveList("vod", getString(R.string.title));
     		String param = currentChannel_name.equals("")? "西游记":currentChannel_event;
+    		Log.d(TAG, "currentChannel_event===>"+param);
     		mService.loadInteractiveList("vod", param);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -776,6 +777,8 @@ public class EPG extends Activity implements OnItemClickListener{
     		unbindService(tunerConnection);
     	if(interactConnection!=null)
     		unbindService(interactConnection);
+//    	if(menu!=null)menu.removeAllViews();
+    	mChannelNameList.clear();
     }
 	
     
