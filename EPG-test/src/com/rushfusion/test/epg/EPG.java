@@ -63,7 +63,6 @@ public class EPG extends Activity implements OnItemClickListener{
 	private ChannelInfo currentInfo;
 	
 	private String currentChannel_name = "";
-	private int currentChannel_num = 0;
 	private String currentChannel_event = "";
 	
 	private VideoView player;
@@ -359,7 +358,6 @@ public class EPG extends Activity implements OnItemClickListener{
 		new Thread(new Runnable() {
 			public void run() {
 				currentChannel_name = info.getServiceName();
-				currentChannel_num = info.getProgramNumber();
 				saveLastChannel(EPG.this, currentIndex, info);
 				mEpgManager.bindEpgService(tunerConnection);
 				mEpgManager.startEpgService();
@@ -733,7 +731,7 @@ public class EPG extends Activity implements OnItemClickListener{
 			TextView tv = new TextView(EPG.this);
 			tv.setTextSize(24);
 			tv.setTextColor(Color.WHITE);
-			int number =  (Integer) mChannelNameList.get(position).get("program_number");
+//			int number =  (Integer) mChannelNameList.get(position).get("program_number");
 			tv.setText((String) mChannelNameList.get(position).get("channelName"));
 			return tv;
 		}
